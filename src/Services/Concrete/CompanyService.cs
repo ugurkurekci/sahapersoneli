@@ -1,4 +1,5 @@
-﻿using Entity.EntityFramework;
+﻿using AutoMapper;
+using Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Services.Abstract;
 using Services.Dto;
@@ -9,29 +10,21 @@ public class CompanyService : ICompanyService
 {
 
     private readonly ProjectDbContext _context;
+    private readonly IMapper _mapper;
 
-    public CompanyService(ProjectDbContext context)
+    public CompanyService(ProjectDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<List<CompanyDto>> GetAll()
     {
 
-        return await _context.Company.Select(x => new CompanyDto
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Address = x.Address,
-            Phone = x.Phone,
-            Email = x.Email,
-            CategoryId = x.CategoryId,
-            CityId = x.CityId,
-            CreatedAt = x.CreatedAt.ToString(),
-            IsActive = x.IsActive,
-            UpdatedAt = x.UpdatedAt.ToString(),
-            
-        }).ToListAsync();
+        var companies = await _context.Company.ToListAsync();
+        return _mapper.Map<List<CompanyDto>>(companies);
+
+
 
     }
 

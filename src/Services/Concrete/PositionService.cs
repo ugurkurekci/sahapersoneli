@@ -1,4 +1,5 @@
-﻿using Entity.EntityFramework;
+﻿using AutoMapper;
+using Entity.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Services.Abstract;
 using Services.Dto;
@@ -9,20 +10,19 @@ public class PositionService : IPositionService
 {
 
     private readonly ProjectDbContext _context;
+    private readonly IMapper _mapper;
 
-    public PositionService(ProjectDbContext context)
+    public PositionService(ProjectDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<List<PositionDto>> GetAll()
     {
 
-        return await _context.Position.Select(x => new PositionDto
-        {
-            Id = x.Id,
-            Name = x.Name
-        }).ToListAsync();
+        var positions = await _context.Position.ToListAsync();
+        return _mapper.Map<List<PositionDto>>(positions);
 
     }
 

@@ -12,8 +12,10 @@ public static class DependencyInjection
     {
 
         services.AddDbContext<ProjectDbContext>();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddAllServices(Assembly.GetExecutingAssembly());
+
 
         return services;
 

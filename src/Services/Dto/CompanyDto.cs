@@ -19,7 +19,7 @@ public class CompanyDto
 
     public string CreatedAt { get; set; }
 
-    public string UpdatedAt { get; set; }
+    public string? UpdatedAt { get; set; }
 
     public bool IsActive { get; set; }
 
